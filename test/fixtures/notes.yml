@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  letter: MyString
+  flat: false
+  sharp: false
+  value: 1
+
+two:
+  name: MyString
+  letter: MyString
+  flat: false
+  sharp: false
+  value: 1
