@@ -1,6 +1,8 @@
 class Note < ActiveRecord::Base
   validates :name, uniqueness: true
 
+  scope :to_display, -> { where(double_flat: false, double_sharp: false) }
+
   NEXT_LETTERS = {
     "c" => "d",
     "d" => "e",
@@ -15,12 +17,28 @@ class Note < ActiveRecord::Base
     "#{letter.upcase}#{display_accidental}"
   end
 
-  def half_step_up
+  def half_step
     Note.find_by(letter: next_letter, value: next_value)
   end
 
-  def whole_step_up
+  def whole_step
     Note.find_by(letter: next_letter, value: next_value(2))
+  end
+
+  def minor_third
+    Note.find_by(letter: next_letter_by(2), value: next_value(3))
+  end
+
+  def major_third
+    Note.find_by(letter: next_letter_by(2), value: next_value(4))
+  end
+
+  def diminished_fifth
+    minor_third.minor_third
+  end
+
+  def perfect_fifth
+    major_third.minor_third
   end
 
   def next_letter_by(amount, current_letter = nil)
@@ -34,11 +52,9 @@ class Note < ActiveRecord::Base
   end
 
   def next_value(step = 1)
-    return value + step if value < 12
-    (value - 12) + step
+    new_value = value + step
+    new_value > 12 ? new_value - 12 : new_value
   end
-
-  private
 
   def display_accidental
     return "" unless flat || sharp || double_flat || double_sharp
