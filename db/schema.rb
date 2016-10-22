@@ -11,19 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022055633) do
+ActiveRecord::Schema.define(version: 20161022161623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "notes", force: :cascade do |t|
-    t.string   "name",                       null: false
-    t.string   "letter",                     null: false
-    t.boolean  "flat",       default: false, null: false
-    t.boolean  "sharp",      default: false, null: false
+    t.string   "name",                         null: false
+    t.string   "letter",                       null: false
+    t.boolean  "flat",         default: false, null: false
+    t.boolean  "sharp",        default: false, null: false
     t.integer  "value"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "double_flat",  default: false
+    t.boolean  "double_sharp", default: false
   end
 
 end
