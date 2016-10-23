@@ -6,7 +6,7 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_display_name
-    test_names = [["cb", "C Flat"],["cbb", "C Double Flat"], ["e#", "E Sharp"], ["e##", "E Double Sharp"], ["a", "A"]]
+    test_names = [["cb", "C♭"],["cbb", "C♭♭"], ["e#", "E♯"], ["e##", "E♯♯"], ["a", "A"]]
     test_names.each do |name, expected_display_name|
       actual = Note.find_by(name: name).display_name
       assert_equal expected_display_name, actual, "Expected '#{expected_display_name}', but got #{actual}."
@@ -155,5 +155,113 @@ class NoteTest < ActiveSupport::TestCase
       assert_equal expected, actual, "Expected #{interval_method} for '#{tonic.name}'to be '#{expected}', but got '#{actual}'"
     end
   end
+
+  def test_major_chord
+    chord_test_helper(["c","e","g"], "major")
+  end
+
+  def test_minor_chord
+    chord_test_helper(["c","eb","g"], "minor")
+  end
+
+  def test_diminished_chord
+    chord_test_helper(["c","eb","gb"], "diminished")
+  end
+
+  def test_five_chord
+    chord_test_helper(["c","g"], "five")
+  end
+
+  def test_six_chord
+    chord_test_helper(["c","e","g","a"], "six")
+  end
+
+  def test_augmented_chord
+    chord_test_helper(["c","e","g#"], "augmented")
+  end
+
+  def test_min_sixth_chord
+    chord_test_helper(["c","eb","g","a"], "min_six")
+  end
+
+  def test_min_min_sixth_chord
+    chord_test_helper(["c","eb","g","ab"], "min_min_six")
+  end
+
+  def test_seventh_chord
+    chord_test_helper(["c","e","g","bb"], "seventh")
+  end
+
+  def test_maj_seventh_chord
+    chord_test_helper(["c","e","g","b"], "maj_seventh")
+  end
+
+  def test_min_maj_seventh_chord
+    chord_test_helper(["c","eb","g","b"], "min_maj_seventh")
+  end
+
+  def test_min_seventh_chord
+    chord_test_helper(["c","eb","g","bb"], "min_seventh")
+  end
+
+  def test_aug_maj_seventh_chord
+    chord_test_helper(["c","e","g#","b"], "aug_maj_seventh")
+  end
+
+  def test_aug_seventh_chord
+    chord_test_helper(["c","e","g#","bb"], "aug_seventh")
+  end
+
+  def test_half_dim_seventh_chord
+    chord_test_helper(["c","eb","gb","bb"], "half_dim_seventh")
+  end
+
+  def test_dim_seventh_chord
+    chord_test_helper(["c","eb","gb","a"], "dim_seventh")
+  end
+
+  def test_seventh_flat_five_chord
+    chord_test_helper(["c","e","gb","bb"], "seventh_flat_five")
+  end
+
+  def test_add_nine_chord
+    chord_test_helper(["c","d","e","g"], "add_nine")
+  end
+
+  def test_min_add_nine_chord
+    chord_test_helper(["c","d","eb","g"], "min_add_nine")
+  end
+
+  def test_sus_two_chord
+    chord_test_helper(["c","d","g"], "sus_two")
+  end
+
+  def test_sus_four_chord
+    chord_test_helper(["c","f","g"], "sus_four")
+  end
+
+  def test_augmented_chord_notes
+    note = Note.find_by(name: "b#")
+    note.augmented[:notes].each{|n| refute n.nil? }
+    note.aug_seventh[:notes].map{|n| refute n.nil? }
+    note.aug_maj_seventh[:notes].map{|n| refute n.nil?}
+
+    note = Note.find_by(name: "c#")
+    note.augmented[:notes].each{|n| refute n.nil? }
+    note.aug_seventh[:notes].map{|n| refute n.nil? }
+    note.aug_maj_seventh[:notes].map{|n| refute n.nil?}
+  end
+
+  def chord_test_helper(expected_note_names, method_name)
+    tonic = Note.find_by(name: expected_note_names.first)
+    expected = expected_note_names.map{ |note_name| Note.find_by(name: note_name) }
+    actual = tonic.send(method_name)[:notes]
+    assert_equal expected, actual, chord_message(expected, actual)
+  end
+
+  def chord_message(expected_notes, actual_notes)
+    expected_note_names = expected_notes.map{|ns| ns.name}
+    actual_note_names = actual_notes.map{|ns| ns.name}
+    "expected '#{expected_note_names.join(", ")}' - got '#{actual_note_names.join(", ")}'"
   end
 end

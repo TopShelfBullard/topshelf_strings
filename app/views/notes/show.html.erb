@@ -1,9 +1,7 @@
-<h3>Note:</h3>
-
-<h4><%= @note.display_name %>:</h4>
-<p>half_step:        <%= @note.half_step.name %></p>
-<p>whole_step:       <%= @note.whole_step.name %></p>
-<p>minor_third:      <%= @note.minor_third.name %></p>
-<p>major_third:      <%= @note.major_third.name %></p>
-<p>diminished_fifth: <%= @note.diminished_fifth.name %></p>
-<p>perfect_fifth:    <%= @note.perfect_fifth.name %></p>
+<h3><%= @note.display_name %>:</h3>
+<hr>
+<% @note.chords.each do |chord| %>
+    <h4><%= chord[:name] %></h4>
+    <blockquote><%= chord[:notes].map{ |note| note.display_name }.join("  -  ") %></blockquote>
+    <hr>
+<% end %>
