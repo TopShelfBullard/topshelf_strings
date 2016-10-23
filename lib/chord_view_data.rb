@@ -13,8 +13,8 @@ class ChordViewData
         current_fret[3] = note.display_name if note.value == first
       end
 
-      current_fret.map{ |string| string.nil? ? "   " : string}
-      fretboard[:frets] << current_fret.map{ |string| string.nil? ? "   " : string}
+      fretboard[:frets] << current_fret
+
       fouth, third, second, first = up_half_step([ fouth, third, second, first ])
     }
     fretboard

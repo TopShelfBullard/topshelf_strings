@@ -252,6 +252,27 @@ class NoteTest < ActiveSupport::TestCase
     note.aug_maj_seventh[:notes].map{|n| refute n.nil?}
   end
 
+  def test_major_scale
+    c_major = [ "c", "d", "e", "f", "g", "a", "b" ]
+    c = Note.find_by(name: c_major.first)
+    assert_equal c.major_scale, c_major.map{ | note_name | Note.find_by(name: note_name) }
+  end
+
+  def test_minor_scale
+    a_minor = [ "a", "b", "c", "d", "e", "f", "g" ]
+    a = Note.find_by(name: a_minor.first)
+    assert_equal a.minor_scale, a_minor.map{ | note_name | Note.find_by(name: note_name) }
+  end
+
+  def test_chord_is_diatonic_to
+    c = Note.find_by(name: "c")
+    assert c.chords_diatonic_to(c.major_scale).include?(c.major)
+    assert c.chords_diatonic_to(c.major_scale).include?(c.maj_seventh)
+    refute c.chords_diatonic_to(c.major_scale).include?(c.seventh)
+    refute c.chords_diatonic_to(c.major_scale).include?(c.minor)
+    assert c.chords_diatonic_to(c.minor_scale).include?(c.minor)
+  end
+
   def chord_test_helper(expected_note_names, method_name)
     tonic = Note.find_by(name: expected_note_names.first)
     expected = expected_note_names.map{ |note_name| Note.find_by(name: note_name) }

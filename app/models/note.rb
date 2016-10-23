@@ -20,10 +20,41 @@ class Note < ActiveRecord::Base
 
   def chords
     [
-      major,  minor, diminished, augmented, five, six, min_six,  min_min_six, seventh, maj_seventh, min_maj_seventh,
+      major, minor, diminished, augmented, five, six, min_six,  min_min_six, seventh, maj_seventh, min_maj_seventh,
       min_seventh, aug_maj_seventh, aug_seventh, half_dim_seventh, dim_seventh, seventh_flat_five, add_nine, min_add_nine,
       sus_two ,sus_four,
     ]
+  end
+
+  def chords_diatonic_to(scale)
+    scale_values = scale.map{ |note| note.value }
+    chords.select{ |chord|
+      diatonic = true
+      chord[:notes].map{ |note| note.value }.each do |value|
+        diatonic = false unless scale_values.include?(value)
+      end
+      diatonic
+    }
+  end
+
+  def major_scale
+    re = self.whole_step
+    mi = re.whole_step
+    fa = mi.half_step
+    sol = fa.whole_step
+    la = sol.whole_step
+    ti = la.whole_step
+    [ self, re, mi, fa, sol, la, ti ]
+  end
+
+  def minor_scale
+    re = self.whole_step
+    me = re.half_step
+    fa = me.whole_step
+    sol = fa.whole_step
+    le = sol.half_step
+    te = le.whole_step
+    [ self, re, me, fa, sol, le, te ]
   end
 
   def major
