@@ -1,6 +1,5 @@
 class Data::Notes
   def self.create_all
-    puts "CREATING ALL"
     [
       [["cbb", 11], ["cb", 12], ["c", 1 ], ["c#", 2 ], ["c##", 3  ]],
       [["dbb", 1 ], ["db", 2 ], ["d", 3 ], ["d#", 4 ], ["d##", 5  ]],

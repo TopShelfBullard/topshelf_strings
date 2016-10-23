@@ -13,29 +13,6 @@ class NoteTest < ActiveSupport::TestCase
     end
   end
 
-  def test_next_letter
-    test_letters = [["c", "d"], ["d", "e"], ["e", "f"], ["f", "g"], ["g", "a"], ["a", "b"], ["b", "c"]]
-    test_letters.each do |letter, next_letter|
-      expected = next_letter
-      [
-        Note.find_by(letter: letter, flat: false, sharp: false).next_letter,
-        Note.find_by(letter: letter, flat: true).next_letter,
-        Note.find_by(letter: letter, sharp: true).next_letter
-      ].each do |actual|
-        assert_equal expected, actual, "Expected the letter after '#{letter}' to be '#{next_letter}', but got #{actual}"
-      end
-    end
-  end
-
-  def test_next_value
-    test_values = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 1]]
-    test_values.each do |value, next_value|
-      Note.where(value: value).each do |note|
-        assert_equal next_value, note.next_value, "Expected the value after #{note.value} to be #{next_value}."
-      end
-    end
-  end
-
   def test_whole_and_half_step
     test_notes = [["c", "db", "d"],["b#", "c#", "c##"],["fb", "gbb", "gb"],["a", "bb", "b"],["b", "c", "c#"]]
     test_notes.each do |note_letter, half_step_letter, whole_step_letter|
@@ -67,13 +44,13 @@ class NoteTest < ActiveSupport::TestCase
     end
   end
 
-  def test_perfect_fifth
-    test_notes = [["c", "g"], ["g", "d"], ["e", "b"], ["b", "f#"], ["a", "e"], ["f", "c"], ["gb", "db"]]
-    test_notes.each do |note, perfect_fifth_note|
+  def test_perfect_fourth
+    test_notes = [["c", "f"], ["g", "c"], ["e", "a"], ["b", "e"], ["a", "d"], ["f", "bb"], ["gb", "cb"]]
+    test_notes.each do |note, perfect_fourth_note|
       note = Note.find_by(name: note)
-      expected = Note.find_by(name: perfect_fifth_note)
-      actual = note.perfect_fifth
-      assert_equal expected, actual, "Expected '#{perfect_fifth_note}' to be a perfect fifth above '#{note.name}', but got '#{actual.name}'"
+      expected = Note.find_by(name: perfect_fourth_note)
+      actual = note.perfect_fourth
+      assert_equal expected, actual, "Expected '#{perfect_fourth_note}' to be a perfect fourth above '#{note.name}', but got '#{actual.name}'"
     end
   end
 
@@ -87,9 +64,96 @@ class NoteTest < ActiveSupport::TestCase
     end
   end
 
-  def next_value_test_helper(value, next_value)
-    Note.where(value: value).each do |note|
-      assert_equal next_value, note.next_value, "Expected the value after #{note.value} to be #{next_value}."
+  def test_perfect_fifth
+    test_notes = [["c", "g"], ["g", "d"], ["e", "b"], ["b", "f#"], ["a", "e"], ["f", "c"], ["gb", "db"]]
+    test_notes.each do |note, perfect_fifth_note|
+      note = Note.find_by(name: note)
+      expected = Note.find_by(name: perfect_fifth_note)
+      actual = note.perfect_fifth
+      assert_equal expected, actual, "Expected '#{perfect_fifth_note}' to be a perfect fifth above '#{note.name}', but got '#{actual.name}'"
     end
+  end
+
+  def test_intervals
+    tonic = Note.find_by(name: "c")
+    test_intervals = [
+      ["db", "half_step"],
+      ["d",  "whole_step"],
+      ["eb", "minor_third"],
+      ["e",  "major_third"],
+      ["f",  "perfect_fourth"],
+      ["gb", "diminished_fifth"],
+      ["g",  "perfect_fifth"],
+      ["ab", "minor_sixth"],
+      ["a",  "major_sixth"],
+      ["a",  "diminished_seventh"],
+      ["bb", "minor_seventh"],
+      ["b",  "major_seventh"]
+    ]
+    test_intervals.each do |expected, interval_method|
+      actual = tonic.send(interval_method).name
+      assert_equal expected, actual, "Expected #{interval_method} for '#{tonic.name}'to be '#{expected}', but got '#{actual}'"
+    end
+
+    tonic = Note.find_by(name: "cb")
+    test_intervals = [
+      ["dbb", "half_step"],
+      ["db",  "whole_step"],
+      ["ebb", "minor_third"],
+      ["eb",  "major_third"],
+      ["fb",  "perfect_fourth"],
+      ["gbb", "diminished_fifth"],
+      ["gb",  "perfect_fifth"],
+      ["abb", "minor_sixth"],
+      ["ab",  "major_sixth"],
+      ["ab",  "diminished_seventh"],
+      ["bbb", "minor_seventh"],
+      ["bb",  "major_seventh"]
+    ]
+    test_intervals.each do |expected, interval_method|
+      actual = tonic.send(interval_method).name
+      assert_equal expected, actual, "Expected #{interval_method} for '#{tonic.name}'to be '#{expected}', but got '#{actual}'"
+    end
+
+    tonic = Note.find_by(name: "c#")
+    test_intervals = [
+      ["d", "half_step"],
+      ["d#",  "whole_step"],
+      ["e", "minor_third"],
+      ["e#",  "major_third"],
+      ["f#",  "perfect_fourth"],
+      ["g", "diminished_fifth"],
+      ["g#",  "perfect_fifth"],
+      ["a", "minor_sixth"],
+      ["a#",  "major_sixth"],
+      ["a#",  "diminished_seventh"],
+      ["b", "minor_seventh"],
+      ["b#",  "major_seventh"]
+    ]
+    test_intervals.each do |expected, interval_method|
+      actual = tonic.send(interval_method).name
+      assert_equal expected, actual, "Expected #{interval_method} for '#{tonic.name}'to be '#{expected}', but got '#{actual}'"
+    end
+
+    tonic = Note.find_by(name: "g")
+    test_intervals = [
+      ["ab", "half_step"],
+      ["a",  "whole_step"],
+      ["bb", "minor_third"],
+      ["b",  "major_third"],
+      ["c",  "perfect_fourth"],
+      ["db", "diminished_fifth"],
+      ["d",  "perfect_fifth"],
+      ["eb", "minor_sixth"],
+      ["e",  "major_sixth"],
+      ["e",  "diminished_seventh"],
+      ["f",  "minor_seventh"],
+      ["f#", "major_seventh"]
+    ]
+    test_intervals.each do |expected, interval_method|
+      actual = tonic.send(interval_method).name
+      assert_equal expected, actual, "Expected #{interval_method} for '#{tonic.name}'to be '#{expected}', but got '#{actual}'"
+    end
+  end
   end
 end

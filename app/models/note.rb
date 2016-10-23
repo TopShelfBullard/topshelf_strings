@@ -33,13 +33,39 @@ class Note < ActiveRecord::Base
     Note.find_by(letter: next_letter_by(2), value: next_value(4))
   end
 
+  def perfect_fourth
+    Note.find_by(letter: next_letter_by(3), value: next_value(5))
+  end
+
   def diminished_fifth
-    minor_third.minor_third
+    Note.find_by(letter: next_letter_by(4), value: next_value(6))
   end
 
   def perfect_fifth
-    major_third.minor_third
+    Note.find_by(letter: next_letter_by(4), value: next_value(7))
   end
+
+  def minor_sixth
+    Note.find_by(letter: next_letter_by(5), value: next_value(8))
+  end
+
+  def major_sixth
+    Note.find_by(letter: next_letter_by(5), value: next_value(9))
+  end
+
+  def diminished_seventh
+    major_sixth
+  end
+
+  def minor_seventh
+    Note.find_by(letter: next_letter_by(6), value: next_value(10))
+  end
+
+  def major_seventh
+    Note.find_by(letter: next_letter_by(6), value: next_value(11))
+  end
+
+  private
 
   def next_letter_by(amount, current_letter = nil)
     current_letter ||= letter
