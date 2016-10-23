@@ -1,7 +1,9 @@
-<h3><%= @note.display_name %>:</h3>
+<h3>Chords for <%= @note.display_name %>:</h3>
 <hr>
-<% @note.chords.each do |chord| %>
-    <h4><%= chord[:name] %></h4>
-    <blockquote><%= chord[:notes].map{ |note| note.display_name }.join("  -  ") %></blockquote>
+<% @chords.each do |chord| %>
+    <h4><%= chord[:label] %></h4>
+    <% (chord[:frets]).each do |fret| %>
+        <p><%= fret.inspect %></p>
+    <% end %>
     <hr>
 <% end %>

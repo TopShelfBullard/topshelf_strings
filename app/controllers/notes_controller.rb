@@ -5,5 +5,6 @@ class NotesController < ApplicationController
 
   def show
     @note = Note.find params[:id]
+    @chords = @note.chords.map{ |chord| ChordViewData.fretboard(chord[:name], chord[:notes]) }
   end
 end
