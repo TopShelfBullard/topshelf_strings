@@ -1,0 +1,10 @@
+<div class="row">
+  <% chords.each do |chord| %>
+    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+      <div class="fretboard">
+        <h4><%= chord[:label] %></h4>
+          <%= render partial: "fretboard", locals: { chord: chord } %>
+      </div>
+    </div>
+  <% end %>
+</div>

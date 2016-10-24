@@ -3,6 +3,16 @@ class Note < ActiveRecord::Base
 
   scope :to_display, -> { where(double_flat: false, double_sharp: false) }
 
+  SCALES = [
+    "major",
+    "minor",
+    "dorian",
+    "phrygian",
+    "lydian",
+    "mixolydian",
+    "locrian"
+  ]
+
   NEXT_LETTERS = {
     "c" => "d",
     "d" => "e",
@@ -38,23 +48,73 @@ class Note < ActiveRecord::Base
   end
 
   def major_scale
-    re = self.whole_step
-    mi = re.whole_step
-    fa = mi.half_step
-    sol = fa.whole_step
-    la = sol.whole_step
-    ti = la.whole_step
-    [ self, re, mi, fa, sol, la, ti ]
+    r = self.whole_step
+    m = r.whole_step
+    f = m.half_step
+    s = f.whole_step
+    l = s.whole_step
+    t = l.whole_step
+    [ self, r, m, f, s, l, t ]
   end
 
   def minor_scale
-    re = self.whole_step
-    me = re.half_step
-    fa = me.whole_step
-    sol = fa.whole_step
-    le = sol.half_step
-    te = le.whole_step
-    [ self, re, me, fa, sol, le, te ]
+    r = self.whole_step
+    m = r.half_step
+    f = m.whole_step
+    s = f.whole_step
+    l = s.half_step
+    t = l.whole_step
+    [ self, r, m, f, s, l, t ]
+  end
+
+  def dorian_scale
+    r = self.whole_step
+    m = r.half_step
+    f = m.whole_step
+    s = f.whole_step
+    l = s.whole_step
+    t = l.half_step
+    [ self, r, m, f, s, l, t ]
+  end
+
+  def phrygian_scale
+    r = self.half_step
+    m = r.whole_step
+    f = m.whole_step
+    s = f.whole_step
+    l = s.half_step
+    t = l.whole_step
+    [ self, r, m, f, s, l, t ]
+  end
+
+  def lydian_scale
+    r = self.whole_step
+    m = r.whole_step
+    f = m.whole_step
+    s = f.half_step
+    l = s.whole_step
+    t = l.whole_step
+    [ self, r, m, f, s, l, t ]
+  end
+
+  def mixolydian_scale
+    r = self.whole_step
+    m = r.whole_step
+    f = m.half_step
+    s = f.whole_step
+    l = s.whole_step
+    t = l.half_step
+    [ self, r, m, f, s, l, t ]
+  end
+
+  def locrian_scale
+    r = self.half_step
+    m = r.whole_step
+    f = m.whole_step
+    s = f.half_step
+    l = s.whole_step
+    t = l.whole_step
+    [ self, r, m, f, s, l, t ]
   end
 
   def major
@@ -185,7 +245,7 @@ class Note < ActiveRecord::Base
 
   def min_add_nine
     {
-      name: display_chord_name("madd9"),
+      name: display_chord_name("m<sup>add9</sup>"),
       notes: [self, whole_step, minor_third, perfect_fifth]
     }
   end

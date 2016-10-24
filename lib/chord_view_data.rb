@@ -1,4 +1,46 @@
 class ChordViewData
+  def self.build_chord_view(note)
+    {
+      title:  chord_group_label(note),
+      data: {
+        chords: chord_group_chords(note)
+      }
+    }
+  end
+
+  def self.build_scale_chord_view(scale)
+    data = scale[:notes].map do |note|
+      {
+        label:  scale_chord_group_label(note),
+        chords: scale_chord_group_chords(note, scale),
+      }
+    end
+
+    { title: scale_chord_group_title(scale), data: data }
+  end
+
+  private
+
+  def self.chord_group_label(note)
+    "Chords for #{note.display_name}:"
+  end
+
+  def self.chord_group_chords(note)
+    note.chords.map{ |chord| fretboard(chord[:name], chord[:notes]) }
+  end
+
+  def self.scale_chord_group_title(scale)
+    "Chords Diatonic to the #{scale[:notes].first.display_name} #{scale[:type]} Scale"
+  end
+
+  def self.scale_chord_group_label(note)
+    "#{note.display_name} Chords:"
+  end
+
+  def self.scale_chord_group_chords(note, scale)
+    note.chords_diatonic_to(scale[:notes]).map{ |chord| fretboard(chord[:name], chord[:notes]) }
+  end
+
   def self.fretboard(label, notes)
     fretboard = { label: label, open_strings: [8, 1, 5, 10], frets: [] }
     fouth, third, second, first = fretboard[:open_strings]

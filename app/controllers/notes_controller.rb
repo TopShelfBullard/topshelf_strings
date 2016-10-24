@@ -4,9 +4,16 @@ class NotesController < ApplicationController
   end
 
   def show
+    @notes = Note.to_display
     @note = Note.find params[:id]
-    @chords = @note.chords.map{ |chord| ChordViewData.fretboard(chord[:name], chord[:notes]) }
-    @major = @note.major_scale
-    @minor = @note.minor_scale
+    @scales = Note::SCALES
+    @chord_views = Hash[
+      @scales.map { |scale_name|
+        [
+          "#{scale_name}_key_chords".to_sym,
+          ChordViewData.build_scale_chord_view(notes: @note.send("#{scale_name}_scale"), type: scale_name.capitalize)
+        ]
+      }
+    ].merge(all_chords: ChordViewData.build_chord_view(@note))
   end
 end
