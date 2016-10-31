@@ -1,3 +1,3 @@
-# UkeRef
+# Topshelf Strings
 
-Uke Ref is learning and songwriting tool for the Ukulele.
+A reference tool and songwriting aid for the ukulele (soon to add the guitar).
