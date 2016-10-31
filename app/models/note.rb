@@ -10,9 +10,9 @@ class Note < ActiveRecord::Base
     "phrygian",
     "lydian",
     "mixolydian",
-    "locrian"
+    "locrian",
+    "whole_tone"
   ]
-
   NEXT_LETTERS = {
     "c" => "d",
     "d" => "e",
@@ -22,7 +22,6 @@ class Note < ActiveRecord::Base
     "a" => "b",
     "b" => "c"
   }
-
   FLAT = "♭"
   DOUBLE_FLAT = "♭♭"
   SHARP = "♯"
@@ -115,6 +114,15 @@ class Note < ActiveRecord::Base
     l = s.whole_step
     t = l.whole_step
     [ self, r, m, f, s, l, t ]
+  end
+
+  def whole_tone_scale
+    r = self.whole_step
+    m = r.whole_step
+    f = m.whole_step
+    s = f.whole_step
+    l = s.whole_step
+    [ self, r, m, f, s, l ]
   end
 
   def major
@@ -331,8 +339,6 @@ class Note < ActiveRecord::Base
     note = Note.find_by(letter: next_letter_by(6), value: next_value(11))
     note || Note.where(value: next_value(11)).first
   end
-
-  private
 
   def next_letter_by(amount, current_letter = nil)
     current_letter ||= letter
