@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>UkeRef</title>
+  <title>TopShelf Strings</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -10,13 +10,22 @@
   <div id="app_container" class="container-fluid">
     <div class="row">
       <div class="col-xs-offset-1 col-xs-10">
-        <ul class="nav nav-tabs">
-          <% @notes.each do |note| %>
-              <li class="nav-item">
-                <a class="nav-link" href="<%= note_path(note) %>"><%= note.display_name %></a>
-              </li>
-          <% end %>
-        </ul>
+        <div class="row">
+          <div class="col-xs-3 col-md-2">
+            <h3 class="title">TopShelf <br>Strings</h3>
+          </div>
+          <div class="col-xs-9 col-md-10">
+          <nav>
+            <ul class="nav nav-pills notes_nav">
+              <% @notes.each do |note| %>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<%= note_path(note) %>"><%= note.display_name %></a>
+                  </li>
+              <% end %>
+            </ul>
+          </nav>
+          </div>
+          </div>
         <%= yield %>
       </div>
     </div>
