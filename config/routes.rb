@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   get '/notes/:id', to: 'notes#show', as: 'note'
+  get '/notes', to: 'notes#index', as: 'notes'
   # You can have the root of your site routed with "root"
   root 'notes#index'
 

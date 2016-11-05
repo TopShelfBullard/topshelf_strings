@@ -11,21 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022161623) do
+ActiveRecord::Schema.define(version: 20161105163249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "notes", force: :cascade do |t|
-    t.string   "name",                         null: false
-    t.string   "letter",                       null: false
-    t.boolean  "flat",         default: false, null: false
-    t.boolean  "sharp",        default: false, null: false
+    t.string   "name",                                  null: false
+    t.string   "letter",                                null: false
+    t.boolean  "flat",                  default: false, null: false
+    t.boolean  "sharp",                 default: false, null: false
     t.integer  "value"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "double_flat",  default: false
-    t.boolean  "double_sharp", default: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "double_flat",           default: false
+    t.boolean  "double_sharp",          default: false
+    t.integer  "half_step_id"
+    t.integer  "whole_step_id"
+    t.integer  "minor_third_id"
+    t.integer  "major_third_id"
+    t.integer  "perfect_fourth_id"
+    t.integer  "augmented_fourth_id"
+    t.integer  "diminished_fifth_id"
+    t.integer  "perfect_fifth_id"
+    t.integer  "augmented_fifth_id"
+    t.integer  "minor_sixth_id"
+    t.integer  "major_sixth_id"
+    t.integer  "diminished_seventh_id"
+    t.integer  "minor_seventh_id"
+    t.integer  "major_seventh_id"
+    t.string   "display_name"
   end
 
 end

@@ -1,1 +1,1 @@
-::Data::Notes.create_all
+::Data::Notes.create_all(true)
