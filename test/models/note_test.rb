@@ -54,6 +54,16 @@ class NoteTest < ActiveSupport::TestCase
     end
   end
 
+  def test_augmented_fourth
+    test_notes = [["c", "f#"], ["g", "c#"], ["e", "a#"], ["b", "e#"], ["a", "d#"], ["f", "b"], ["gb", "c"]]
+    test_notes.each do |note, perfect_fourth_note|
+      note = Note.find_by(name: note)
+      expected = Note.find_by(name: perfect_fourth_note)
+      actual = note.augmented_fourth
+      assert_equal expected, actual, "Expected '#{perfect_fourth_note}' to be a perfect fourth above '#{note.name}', but got '#{actual.name}'"
+    end
+  end
+
   def test_diminished_fifth
     test_notes = [["c", "gb"], ["g", "db"], ["e", "bb"], ["b", "f"], ["a", "eb"], ["f", "cb"], ["gb", "dbb"]]
     test_notes.each do |note, diminished_fifth_note|
