@@ -12,9 +12,9 @@ class NotesController < ApplicationController
         scale_type = scale_name.split("_").map{ |w| w.capitalize }.join(" ")
         [
           "#{scale_name}_key_chords".to_sym,
-          ChordViewData.build_scale_chord_view(notes: @note.send("#{scale_name}_scale"), type: scale_type)
+          ChordViewData.build_scale_chord_view({notes: @note.send("#{scale_name}_scale"), type: scale_type}, @instrument)
         ]
       }
-    ].merge(all_chords: ChordViewData.build_chord_view(@note))
+    ].merge(all_chords: ChordViewData.build_chord_view(@note, @instrument))
   end
 end
