@@ -1,18 +1,18 @@
 class ChordViewData
-  def self.build_chord_view(note)
+  def self.build_chord_view(note, instrument)
     {
       title:  chord_group_label(note),
       data: {
-        chords: chord_group_chords(note)
+        chords: chord_group_chords(note, instrument)
       }
     }
   end
 
-  def self.build_scale_chord_view(scale)
+  def self.build_scale_chord_view(scale, instrument)
     data = scale[:notes].map do |note|
       {
         label:  scale_chord_group_label(note),
-        chords: scale_chord_group_chords(note, scale),
+        chords: scale_chord_group_chords(note, scale, instrument),
       }
     end
 
@@ -25,8 +25,8 @@ class ChordViewData
     "Chords for #{note.display_name}:"
   end
 
-  def self.chord_group_chords(note)
-    note.chords.map{ |chord| fretboard(chord[:name], chord[:notes]) }
+  def self.chord_group_chords(note, instrument)
+    note.chords.map{ |chord| fretboard(chord[:name], chord[:notes], instrument) }
   end
 
   def self.scale_chord_group_title(scale)
@@ -37,15 +37,15 @@ class ChordViewData
     "#{note.display_name} Chords:"
   end
 
-  def self.scale_chord_group_chords(note, scale)
-    note.chords_diatonic_to(scale[:notes]).map{ |chord| fretboard(chord[:name], chord[:notes]) }
+  def self.scale_chord_group_chords(note, scale, instrument)
+    note.chords_diatonic_to(scale[:notes]).map{ |chord| fretboard(chord[:name], chord[:notes], instrument) }
   end
 
-  def self.fretboard(label, notes)
-    fretboard = { label: label, open_strings: [8, 1, 5, 10], frets: [] }
+  def self.fretboard(label, notes, instrument)
+    fretboard = { label: label, open_strings: instrument[:open_string_values], frets: [] }
     fouth, third, second, first = fretboard[:open_strings]
 
-    1.upto(18) {
+    0.upto(instrument[:number_of_frets]) {
       current_fret = [ nil, nil, nil, nil ]
 
       notes.each do |note|
