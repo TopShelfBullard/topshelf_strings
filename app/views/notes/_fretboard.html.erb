@@ -8,8 +8,8 @@
     <br>
     <% chord[:frets].each_with_index do | fret, fret_index | %>
       <div class="col-xs-12 fret <%= fret_class(fret_index) %>">
-        <% fret.each_with_index do | note_name | %>
-          <div class="col-xs-4 string">
+        <% fret.each_with_index do | note_name, _ | %>
+          <div class="col-xs-3 string">
               <div class="col-xs-12 note <%= fingered_or_empty_fret_class(note_name) %>">
                 <div class="note_text <%= accidental_class(note_name) %>">
                   <%= note_name_or_space(note_name) %>

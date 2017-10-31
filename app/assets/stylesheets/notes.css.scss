@@ -20,7 +20,7 @@
 }
 
 .fret_open {
-  height: 50px;
+  height: 40px;
 }
 
 .fret_top {
@@ -56,6 +56,7 @@
   z-index: 1;
   top: 15px;
   right: 27px;
+  color: white;
 }
 
 .note {
@@ -78,7 +79,6 @@
 
 .note_text {
   position: inherit;
-  color: white;
   right: 6px;
 }
 
