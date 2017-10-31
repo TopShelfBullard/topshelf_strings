@@ -11,28 +11,35 @@
     <div class="row">
       <div class="col-xs-offset-1 col-xs-10">
         <div class="row">
-          <div class="col-xs-3 col-md-2">
-            <h3 class="title">TopShelf <br>Strings</h3>
+          <div class="col-xs-4 col-md-3">
+            <h3 class="title">TopShelf<br>Strings</h3>
+            <nav>
+              <ul class="nav nav-pills">
+                <li class="nav-item instrument_select">
+                  <%= form_tag({}, {:method => :get}) do %>
+                      <%= select_tag :instrument, options_for_select(@instrument_options, @instrument[:value]), :onchange => "this.form.submit();" %>
+                  <% end %>
+                </li>
+              </ul>
+            </nav>
+            <br>
           </div>
-          <div class="col-xs-9 col-md-10">
-          <nav>
-            <ul class="nav nav-pills notes_nav">
-              <li class="nav-item instrument_select">
-                <%= form_tag({}, {:method => :get}) do %>
-                    <%= select_tag :instrument, options_for_select(@instrument_options, @instrument[:value]), :onchange => "this.form.submit();" %>
+          <div class="col-xs-8 col-md-9 nav_container">
+            <br>
+            <% @notes_for_nav.each_slice(11).to_a.each do |notes| %>
+              <nav>
+              <ul class="nav nav-pills notes_nav">
+                <% notes.each do |note| %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="<%= note_path(note) %>"><%= note.display_name %></a>
+                    </li>
                 <% end %>
-              </li>
-
-              <% @notes.each do |note| %>
-                  <li class="nav-item">
-                    <a class="nav-link" href="<%= note_path(note) %>"><%= note.display_name %></a>
-                  </li>
-              <% end %>
-            </ul>
-
-          </nav>
+              </ul>
+              </nav>
+            <% end %>
           </div>
-          </div>
+        </div>
+
         <%= yield %>
       </div>
     </div>

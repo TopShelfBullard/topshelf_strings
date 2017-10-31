@@ -16,14 +16,37 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+#app_container {
+  font: bold, Helvetica, Verdana, Tahoma;
+  min-width: 960px;
+}
+
 .title {
+  padding: 5px;
   text-align: center;
+  background-color: red;
+  color: white;
+  border-radius: 15%;
 }
 
 .notes_nav {
-  padding-top: 10px;
+  text-align: center;
+  background-color: red;
+  color: white;
 }
 
-.instrument_select {
-  padding-top: 10px;
+.notes_nav a:link {
+  color: white;
+}
+
+.notes_nav a:visited {
+  color: white;
+}
+
+.chord_group_titles a:link {
+  color: black;
+}
+
+.chord_group_titles a:visited {
+  color: black;
 }

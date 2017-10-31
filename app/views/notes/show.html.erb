@@ -1,9 +1,9 @@
 <div class="panel with-nav-tabs panel-default">
-  <div class="panel-heading">
+  <div class="panel-heading chord_group_titles">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#chords" data-target="#chords" data-toggle="tab">chords</a></li>
       <% @scales.each do |scale_name| %>
-        <li><a href="#<%= scale_name %>" data-target="#<%= scale_name %>" data-toggle="tab"><%= scale_name %></a></li>
+        <li><a href="#<%= scale_name %>" data-target="#<%= scale_name %>" data-toggle="tab"><%= format_chord_group_title(scale_name) %></a></li>
       <% end %>
     </ul>
   </div>
@@ -13,7 +13,6 @@
 
       <div class="tab-pane active" id="chords">
         <h3><%= @chord_views[:all_chords][:title] %></h3>
-        <hr>
         <div class="row">
           <%= render partial: "chords", locals: { chords: @chord_views[:all_chords][:data][:chords] } %>
         </div>

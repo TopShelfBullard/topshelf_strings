@@ -43,7 +43,6 @@ class Note < ActiveRecord::Base
 
   validates :name, uniqueness: true
 
-
   scope :to_display, -> {
     self.include_associates.where(double_flat: false, double_sharp: false)
   }

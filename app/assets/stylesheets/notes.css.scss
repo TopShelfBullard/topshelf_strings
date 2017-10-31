@@ -1,0 +1,91 @@
+// Place all the styles related to the Notes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#app_container {
+  font: bold, Helvetica, Verdana, Tahoma;
+}
+
+.chord_label {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  text-align: center;
+  background-color: red;
+  color: white;
+  border-radius: 15%;
+}
+
+.fretboard {
+  width: 210px;
+  padding-top: 50px;
+}
+
+.fret_open {
+  height: 50px;
+}
+
+.fret_top {
+  height: 50px;
+  padding-top: 5px;
+  background-image: image-url("fret_top.jpg");
+}
+
+.fret_norm {
+  height: 45px;
+  background-image: image-url("fret.jpg");
+}
+
+.fret_single_dot {
+  height: 45px;
+  background-image: image-url("fret_with_single_dot.jpg");
+}
+
+.fret_double_dot {
+  height: 45px;
+  background-image: image-url("fret_with_double_dot.jpg");
+}
+
+.fret {
+  z-index: 0;
+  background_size: contain;
+  background-repeat: no-repeat;
+  left: 15px;
+}
+
+.string {
+  padding: 5px;
+  z-index: 1;
+  top: 15px;
+  right: 27px;
+}
+
+.note {
+  display: inline-block;
+  border-radius: 50%;
+  bottom: 5px;
+  z-index: 7;
+}
+
+.fingered {
+  background:         radial-gradient( 5px -9px, circle, white 8%, red 26px );
+  background: -webkit-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+  background:    -moz-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+  background:     -ms-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+  background:      -o-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+  background-color: red;
+  border: 1px solid white;
+  box-shadow: 3px 3px 3px black;
+}
+
+.note_text {
+  position: inherit;
+  color: white;
+  right: 6px;
+}
+
+.with_accidental {
+  right: 9px;
+}
+
+.with_double_accidental {
+  right: 13px;
+}

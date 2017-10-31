@@ -42,8 +42,8 @@ class ChordViewData
   end
 
   def self.fretboard(label, notes, instrument)
-    fretboard = { label: label, open_strings: instrument[:open_string_values], frets: [] }
-    fouth, third, second, first = fretboard[:open_strings]
+    fretboard = { label: label, frets: [] }
+    fouth, third, second, first = instrument[:open_string_values]
 
     0.upto(instrument[:number_of_frets]) {
       current_fret = [ nil, nil, nil, nil ]
@@ -56,7 +56,6 @@ class ChordViewData
       end
 
       fretboard[:frets] << current_fret
-
       fouth, third, second, first = up_half_step([ fouth, third, second, first ])
     }
     fretboard

@@ -1,32 +1,27 @@
 module NotesHelper
-  def print_fretboard(fretboard)
-    frets = ["0    #{print_fret(fretboard[:frets].shift)}\n     ============="]
-    fret_number = 1
-    fretboard[:frets].each do |fret|
-      if fret_number < 10
-        frets << "#{fret_number}    #{print_fret(fret)}\n     _____________"
-      else
-        frets << "#{fret_number}   #{print_fret(fret)}\n    _____________"
-      end
-      fret_number = fret_number + 1
-    end
-    frets.join("\n")
+  def format_chord_group_title(title)
+    title.split("_").join(" ")
   end
 
-  def print_fret(fret)
-    fourth, third, second, first = fret
-    "#{regularize_whitespace(fourth)}#{regularize_whitespace(third)}#{regularize_whitespace(second)}#{regularize_whitespace(first)}"
+  def note_name_or_space(note_name)
+    note_name || "&nbsp;".html_safe
   end
 
-  def regularize_whitespace(string)
-    return " | " unless string
-    unused_space = 3 - string.length
-    return string unless unused_space > 0
-    if unused_space == 1
-      return " #{string}"
-    end
-    if unused_space == 2
-      return " #{string} "
-    end
+  def accidental_class(note_name)
+    return "" if note_name.blank? || note_name.length < 2
+    return "with_accidental" if note_name.length == 2
+    return "with_double_accidental" if note_name.length == 3
+  end
+
+  def fret_class(fret_index)
+    return "fret_open" if fret_index == 0
+    return "fret_top" if fret_index == 1
+    return "fret_single_dot" if [5, 7, 10, 16].include?(fret_index)
+    return "fret_double_dot" if fret_index == 12
+    return "fret_norm"
+  end
+
+  def fingered_or_empty_fret_class(note_name)
+    note_name.nil? ? "empty" : "fingered"
   end
 end

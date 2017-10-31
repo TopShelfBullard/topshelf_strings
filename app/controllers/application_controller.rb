@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :set_options_for_instrument_select, :set_instrument
+  before_action :set_options_for_instrument_select, :set_instrument, :set_notes_for_nav
 
   INSTRUMENTS = {
     "soprano_ukulele" => {
@@ -47,5 +47,9 @@ class ApplicationController < ActionController::Base
       session[:instrument] = INSTRUMENTS[DEFAULT_INSTRUMENT_KEY] unless session[:instrument]
     end
     @instrument = session[:instrument].symbolize_keys!
+  end
+
+  def set_notes_for_nav
+    @notes_for_nav = Note.to_display
   end
 end
