@@ -1,4 +1,5 @@
 <div class="panel with-nav-tabs panel-default">
+
   <div class="panel-heading chord_group_titles">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#chords" data-target="#chords" data-toggle="tab">chords</a></li>
@@ -14,12 +15,32 @@
       <div class="tab-pane active" id="chords">
         <h3><%= @chord_views[:all_chords][:title] %></h3>
         <div class="row">
-          <%= render partial: "chords", locals: { chords: @chord_views[:all_chords][:data][:chords] } %>
+          <%= render partial: "chords", locals: { chords: @all_chords[:data][:chords] } %>
         </div>
       </div>
+
       <% @scales.each do |scale_name| %>
-        <%= render partial: "scale_tab_pane", locals: { name: scale_name, chord_groups: @chord_views["#{scale_name}_key_chords".to_sym], note: @note } %>
+        <div class="tab-pane" id="<%= scale_name %>">
+          <h3><%= @chord_views["#{scale_name}_key_chords".to_sym][:scale][:title] %></h3>
+          <% @chord_views["#{scale_name}_key_chords".to_sym][:scale][:data].each do |chord_group| %>
+              <hr>
+              <div class="row">
+                <%= render partial: "chords", locals: { chords: chord_group[:chords] } %>
+              </div>
+          <% end %>
+
+          <h3><%= @chord_views["#{scale_name}_key_chords".to_sym][:chords][:title] %></h3>
+          <% @chord_views["#{scale_name}_key_chords".to_sym][:chords][:data].each do |chord_group| %>
+              <hr>
+              <h5><%= chord_group[:label] %></h5>
+              <div class="row">
+                <%= render partial: "chords", locals: { chords: chord_group[:chords] } %>
+              </div>
+          <% end %>
+        </div>
       <% end %>
+
     </div>
   </div>
+
 </div>

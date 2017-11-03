@@ -1,0 +1,1 @@
+StaticAppData.initialize_data
