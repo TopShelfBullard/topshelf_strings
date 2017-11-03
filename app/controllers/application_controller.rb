@@ -1,20 +1,28 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :set_options_for_instrument_select, :set_instrument, :set_notes_for_nav
+  before_action :set_instrument_id_in_session,
+                :set_instrument,
+                :set_options_for_instrument_select,
+                :set_notes_for_nav
 
   private
 
   def set_options_for_instrument_select
-    @instrument_options ||= StaticAppData.instruments.map{ |key, instrument| [instrument[:display_name], key] }
+    @instrument_options ||= Instrument.all.map{ |instrument| [instrument.display_name, instrument.id] }
+  end
+
+  def set_instrument_id_in_session
+    puts params.inspect
+    session[:instrument_id] = params[:instrument_id] if params[:instrument_id].present?
   end
 
   def set_instrument
-    if params[:instrument].present?
-      session[:instrument] = StaticAppData.instruments[params[:instrument]]
-    else
-      session[:instrument] = StaticAppData.default_instrument
-    end
-    @instrument = session[:instrument].symbolize_keys!
+    @instrument =
+      if session[:instrument_id].present?
+        Instrument.find(session[:instrument_id])
+      else
+        StaticAppData.default_instrument
+      end
   end
 
   def set_notes_for_nav

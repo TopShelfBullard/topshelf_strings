@@ -1,1 +1,2 @@
-::Data::Notes.create_all(true)
+::Data::Notes.create_all
+::Data::Instruments.create_all

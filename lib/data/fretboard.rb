@@ -5,20 +5,20 @@ class Fretboard
 
   def self.build(label, notes, instrument)
     fretboard = { label: label, frets: [] }
-    fouth, third, second, first = instrument[:open_string_values]
+    fourth, third, second, first = instrument.open_string_values
 
-    0.upto(instrument[:number_of_frets]) {
+    0.upto(instrument.number_of_frets) {
       current_fret = [ nil, nil, nil, nil ]
 
       notes.each do |note|
-        current_fret[0] = note.display_name if note.value == fouth
+        current_fret[0] = note.display_name if note.value == fourth
         current_fret[1] = note.display_name if note.value == third
         current_fret[2] = note.display_name if note.value == second
         current_fret[3] = note.display_name if note.value == first
       end
 
       fretboard[:frets] << current_fret
-      fouth, third, second, first = up_half_step([ fouth, third, second, first ])
+      fourth, third, second, first = up_half_step([ fourth, third, second, first ])
     }
     fretboard
   end

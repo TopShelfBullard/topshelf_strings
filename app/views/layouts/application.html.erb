@@ -17,7 +17,7 @@
               <ul class="nav nav-pills">
                 <li class="nav-item instrument_select">
                   <%= form_tag({}, {:method => :get}) do %>
-                      <%= select_tag :instrument, options_for_select(@instrument_options, @instrument[:value]), :onchange => "this.form.submit();" %>
+                      <%= select_tag :instrument_id, options_for_select(@instrument_options, @instrument.id), :onchange => "this.form.submit();" %>
                   <% end %>
                 </li>
               </ul>

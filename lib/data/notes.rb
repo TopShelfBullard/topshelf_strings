@@ -12,18 +12,13 @@ class Data::Notes
   FLAT = "♭"
   DOUBLE_FLAT = "♭♭"
   SHARP = "♯"
-  DOUBLE_SHARP = "♯♯"
+  DOUBLE_SHARP = "𝄪"
 
   def self.create_all(verbose = false)
-    old_logger = ActiveRecord::Base.logger
-    ActiveRecord::Base.logger = nil
-
     destroy_current_notes(verbose) if Note.count > 0
     create_all_notes_from_raw_data(verbose)
     add_missing_data_to_notes(verbose)
     display_results if verbose
-
-    ActiveRecord::Base.logger = old_logger
   end
 
   def self.destroy_current_notes(verbose)

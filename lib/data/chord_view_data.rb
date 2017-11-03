@@ -11,13 +11,13 @@ class ChordViewData
       StaticAppData.scales.map { |scale_name|
         [
           "#{scale_name}_key_chords".to_sym,
-          build_chord_views_for_scale(note, scale_data(note, scale_name), instrument)
+          build_chord_views_for_scale(scale_data(note, scale_name), instrument)
         ]
       }
     ]
   end
 
-  def self.build_chord_views_for_scale(note, scale, instrument)
+  def self.build_chord_views_for_scale(scale, instrument)
     current_scale_name = "#{scale[:notes].first.display_name} #{scale[:type]}"
     {
       scale: {

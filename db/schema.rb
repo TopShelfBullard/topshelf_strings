@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105163249) do
+ActiveRecord::Schema.define(version: 20171103204605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "instruments", force: :cascade do |t|
+    t.string   "value",              null: false
+    t.string   "display_name",       null: false
+    t.integer  "number_of_frets",    null: false
+    t.integer  "number_of_strings",  null: false
+    t.integer  "open_string_values", null: false, array: true
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "notes", force: :cascade do |t|
     t.string   "name",                                  null: false

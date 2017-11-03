@@ -75,13 +75,11 @@ class Note < ActiveRecord::Base
   end
 
   def chords_diatonic_to(scale)
-    scale_values = scale.map{ |note| note.value }
+    scale_values = scale.map{|note| note.value }
     chords.select{ |chord|
-      diatonic = true
-      chord[:notes].map{ |note| note.value }.each do |value|
-        diatonic = false unless scale_values.include?(value)
-      end
-      diatonic
+      chord[:notes].select{|note|
+        scale_values.include?(note.value)
+      }.length == chord[:notes].length
     }
   end
 
