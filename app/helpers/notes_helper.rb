@@ -16,7 +16,7 @@ module NotesHelper
   def fret_class(fret_index)
     return "fret_open" if fret_index == 0
     return "fret_top" if fret_index == 1
-    return "fret_single_dot" if [5, 7, 10, 16].include?(fret_index)
+    return "fret_single_dot" if [3, 5, 7, 10, 15].include?(fret_index)
     return "fret_double_dot" if fret_index == 12
     return "fret_norm"
   end
