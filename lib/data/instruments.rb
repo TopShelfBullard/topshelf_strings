@@ -1,6 +1,6 @@
 class Data::Instruments
   def self.create_all
-    destroy_current_instruments
+    destroy_current_instruments if Instrument.count > 0
     create_new_instruments
   end
 
