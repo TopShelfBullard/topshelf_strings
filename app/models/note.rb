@@ -63,7 +63,9 @@ class Note < ActiveRecord::Base
     "lydian",
     "mixolydian",
     "locrian",
-    "whole_tone"
+    "whole_tone",
+    "minor_pentatonic",
+    "minor_hexatonic"
   ]
 
   def chords
@@ -113,6 +115,14 @@ class Note < ActiveRecord::Base
 
   def whole_tone_scale
     [ self, whole_step, major_third, augmented_fourth, augmented_fifth, minor_seventh ]
+  end
+
+  def minor_pentatonic_scale
+    [ self, minor_third, perfect_fourth, perfect_fifth, minor_seventh ]
+  end
+
+  def minor_hexatonic_scale
+    [ self, minor_third, perfect_fourth, diminished_fifth, perfect_fifth, minor_seventh ]
   end
 
   def major
